@@ -7,6 +7,8 @@
         row: []
     };
 
+    var a = 75, b = a/2, c = a/25;
+
     for (var i = 0; i < 12; i++) {
         stage.col.push((stage.w/12) * (i + 1) );
         stage.row.push((stage.h/12) * (i + 1));
@@ -15,21 +17,21 @@
     var paper = R(0, 75, stage.w, stage.h);
 
     function node(x, y, text) {
+        paper.rect(x - b, y - b, a, a).attr({"fill": "white"});
         paper.text(x, y, text);
-        paper.rect(x - 75/2, y - 75/2, 75, 75);
         return {x: x, y: y};
     }
 
     function connect(x1, y1, x2, y2) {
-        return paper.path('M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2).attr({"stroke-dasharray": "- "});
+        return paper.path('M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2).attr({"stroke-dasharray": "- "}).toBack();
     }
 
     function rconnect(node1, node2) {
-        return connect(node1.x + 75/2, node1.y + 75/25, node2.x - 75/2, node2.y - 75/25);
+        return connect(node1.x + b, node1.y + c, node2.x - b, node2.y - c);
     }
 
     function lconnect(node1, node2) {
-        return connect(node1.x - 75/2, node1.y + 75/25, node2.x + 75/2, node2.y - 75/25);
+        return connect(node1.x - b, node1.y + c, node2.x + b, node2.y - c);
     }
 
     var slide = [], server = null, user = [], conn = [], cdn = [];

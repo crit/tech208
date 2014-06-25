@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>May 2014 Review</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .kui-page { display: none; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span class="navbar-brand">Code Review: May 2014</span>
+        </div>
+        <div class="navbar-right kui-nav">
+            <button class="btn btn-default navbar-btn" data-control="backward">
+                <i class="glyphicon glyphicon-chevron-left"></i>
+            </button>
+            <button class="btn btn-primary navbar-btn" data-control="forward">
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/"><i class="glyphicon glyphicon-fire"></i></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row kui-page">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="jumbotron">
+                <h2>Observer Pattern or Function Dispatch?</h2>
+                <ul>
+                    <li>Stack of Key:[Fn,Fn]</li>
+                    <li>Two control functions: "listen" and "tell"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row kui-page">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="jumbotron">
+                <h2>Traditional Observer Pattern</h2>
+                <ul>
+                    <li>
+                        The Subject
+                        <ul>
+                            <li>Add Observer</li>
+                            <li>Remove Observer</li>
+                            <li>Notify Observers</li>
+                        </ul>
+                    </li>
+                    <li>
+                        The Observer
+                        <ul>
+                            <li>On Notify</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row kui-page">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="jumbotron">
+                <h2>First Class Functions, Awesome! <small>Javascript Win!</small></h2>
+                <ul>
+                    <li>
+                        The Subject
+                        <ul>
+                            <li>Doesn't care, or know, about Observers</li>
+                            <li>Just tell the world what it has done and let the world sort it out.</li>
+                            <li>There can be no observers! <small>No one cares :(</small></li>
+                        </ul>
+                    </li>
+                    <li>
+                        The Observer
+                        <ul>
+                            <li>Does what ever it wants with action the Subject is telling the world.</li>
+                            <li>Can do nothing.</li>
+                            <li>Can do everything.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        The Arbitrator
+                        <ul>
+                            <li>Cares about Subjects and Observers but doesn't care what is passed between.</li>
+                            <li>Just a stack of functions to call when a key is requested.</li>
+                            <li>Just a way to add a function to a key's stack.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>Also could be the Event Queue Pattern.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LIBS -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
