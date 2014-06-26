@@ -1,4 +1,4 @@
-# Tech208 User Group Presentations
+# Tech208 User Group
 
 My playground for Tech208 projects.
 
