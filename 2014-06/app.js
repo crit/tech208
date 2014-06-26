@@ -7,7 +7,7 @@
         row: []
     };
 
-    var a = 75, b = a/2, c = a/25;
+    var a = 75, b = a/2, c = a/25, d = 3;
 
     for (var i = 0; i < 12; i++) {
         stage.col.push((stage.w/12) * (i + 1) );
@@ -16,8 +16,13 @@
 
     var paper = R(0, 75, stage.w, stage.h);
 
-    function node(x, y, text) {
-        paper.rect(x - b, y - b, a, a).attr({"fill": "white"});
+    function node(x, y, text, svr) {
+        svr = svr || 1;
+
+        if (svr > 2) paper.rect((x - b + d + d), (y - b + d + d), a, a);
+        if (svr > 1) paper.rect((x - b + d), (y - b + d), a, a).attr({"fill": "white"});
+
+        paper.rect((x - b), (y - b), a, a).attr({"fill": "white"});
         paper.text(x, y, text);
         return {x: x, y: y};
     }
@@ -37,7 +42,7 @@
     var slide = [], server = null, user = [], conn = [], cdn = [];
 
     slide.push(function slide1() {
-        server = node(stage.col[5], stage.row[4], "ORIGINAL\nSERVER");
+        server = node(stage.col[5], stage.row[4], "ORIGINAL\nSERVER", 3);
     });
 
     slide.push(function slide2() {
@@ -64,10 +69,10 @@
 
     slide.push(function slide4() {
         cdn = [
-            node(stage.col[3], stage.row[2], "CDN\nSERVER"),
-            node(stage.col[3], stage.row[6], "CDN\nSERVER"),
-            node(stage.col[7], stage.row[2], "CDN\nSERVER"),
-            node(stage.col[7], stage.row[6], "CDN\nSERVER"),
+            node(stage.col[3], stage.row[2], "CDN\nSERVER", 2),
+            node(stage.col[3], stage.row[6], "CDN\nSERVER", 2),
+            node(stage.col[7], stage.row[2], "CDN\nSERVER", 2),
+            node(stage.col[7], stage.row[6], "CDN\nSERVER", 2),
         ];
 
     });
