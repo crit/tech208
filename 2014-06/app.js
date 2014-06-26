@@ -28,7 +28,9 @@
     }
 
     function connect(x1, y1, x2, y2) {
-        return paper.path('M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2).attr({"stroke-dasharray": "- "}).toBack();
+        return paper.path('M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2)
+            .attr({"stroke-dasharray": "- "})
+            .toBack();
     }
 
     function rconnect(node1, node2) {
