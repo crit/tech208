@@ -7,6 +7,8 @@
         row: []
     };
 
+    var done = 900000;
+
     var a = 75, b = a/2, c = a/25, d = 3;
 
     for (var i = 0; i < 12; i++) {
@@ -119,11 +121,46 @@
         document.location = document.location;
     }
 
+    function SneakyCat() {
+        var patience = 300000; // 5 min
+
+        function peek() {
+            console.log('sneaky cat is peeking!');
+            $('#sneaky_cat').animate({
+                bottom:0,
+                right:0
+            },{
+                duration: 10000
+            });
+        }
+
+        function wait() {
+            console.log('sneaky cat is waiting.');
+            setTimeout(peek, patience);
+        }
+
+        function hide() {
+            console.log('sneaky cat spotted!');
+            $('#sneaky_cat').stop().animate({
+                bottom: '-304px',
+                right: '-196px'
+            },{
+                complete: wait
+            });
+        }
+
+        $('#sneaky_cat').on('mouseover', hide);
+
+        wait();
+    }
+
     // on dom load
     $(function(){
         $('#play').click(play);
         $('#next').click(next);
         $('#reset').click(reset);
+
+        SneakyCat();
     });
 
 }(jQuery, Raphael));
