@@ -7,8 +7,6 @@
         row: []
     };
 
-    var done = 900000;
-
     var a = 75, b = a/2, c = a/25, d = 3;
 
     for (var i = 0; i < 12; i++) {
