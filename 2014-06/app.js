@@ -9,12 +9,12 @@
 
     var a = 75, b = a/2, c = a/25, d = 3;
 
+    var paper = R(0, 75, stage.w, stage.h);
+
     for (var i = 0; i < 12; i++) {
         stage.col.push((stage.w/12) * (i + 1) );
         stage.row.push((stage.h/12) * (i + 1));
     }
-
-    var paper = R(0, 75, stage.w, stage.h);
 
     function node(x, y, text, svr) {
         svr = svr || 1;
