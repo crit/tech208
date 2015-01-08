@@ -13,7 +13,7 @@ func (p *Person) Create() {
 }
 
 func ListPeople() []string {
-	var names []string
+	names := make([]string, 0)
 
 	db.Table("people").Model(Person{}).Order("id desc").Pluck("name", &names)
 
