@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+		<form action="/register" method="POST">
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input name="name" class="form-control" type="text" placeholder="Your first and last name" required>
+				<p class="help-block">Your name will be shown to anyone that visits this website during the event.</p>
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input name="email" class="form-control" type="email" placeholder="Your email address">
+				<p class="help-block">This field is optional. We will only use this address to contact you about this event and future events.</p>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary btn-block" type="submit">Register!</button>
+			</div>
+		</form>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">Current People</div>
+			<ul class="list-group" id="stage">
+				<li class="list-group-item">You will be the first!</li>
+			</ul>
+		</div>	
+	</div>
+	<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">Server Stats</div>
+			<div class="panel-body">
+			   <p>Last Refresh Took <b id="timer">-</b> ms</p>
+			</div>
+			<div class="panel-footer">You are on server {{.}}</div>
+		</div>
+	</div>
+</div>

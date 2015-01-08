@@ -120,7 +120,7 @@
     }
 
     function SneakyCat() {
-        var patience = 300000; // 5 min
+        var patience = 1000; // 5 min
 
         function peek() {
             console.log('sneaky cat is peeking!');
