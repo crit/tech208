@@ -62,9 +62,11 @@ func Register(out render.Render, req *http.Request) {
 	db.Exec("insert into people (name, email) values (?, ?)", name, email)
 
 	out.Redirect("/?status=success")
+	// ToDo: Flush MEMCACHED!
 }
 
 func Current(out render.Render) {
+	// ToDo: Run this against MEMCACHED
 	out.JSON(200, map[string][]string{"current": ListPeople()})
 }
 
