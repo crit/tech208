@@ -82,7 +82,9 @@
 					}
 
 					$.each(data.people, function(i, item){
-						var el = $("<li>").addClass('list-group-item').text(item.name)
+						var date = new Date(item.date)
+						var formatted = $("<span>").addClass("pull-right small").text(date.toLocaleString());
+						var el = $("<li>").addClass('list-group-item').html([item.name, formatted]);
 						content.push(el)
 					});
 
