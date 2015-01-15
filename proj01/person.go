@@ -2,19 +2,20 @@ package main
 
 import (
 	"encoding/json"
+	"time"
 )
 
 type Person struct {
-	Id    int    `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Id    int       `json:"-"`
+	Name  string    `json:"name"`
+	Email string    `json:"-"`
+	Date  time.Time `json:"date"`
 }
 
 func (Person) TableName() string {
 	return "people"
 }
 
-// possibly cached
 func PersonList() []Person {
 	list := make([]Person, 0)
 
@@ -24,7 +25,7 @@ func PersonList() []Person {
 		return list
 	}
 
-	db.Order("id desc").Find(&list)
+	db.Order("date desc").Find(&list)
 
 	if len(list) > 0 {
 		data, _ := json.Marshal(list)
@@ -34,9 +35,8 @@ func PersonList() []Person {
 	return list
 }
 
-// might flush the cache
 func PersonCreate(name, email string) error {
-	person := Person{Name: name, Email: email}
+	person := Person{Name: name, Email: email, Date: time.Now()}
 	err := db.Create(&person).Error
 
 	if err == nil {
