@@ -55,6 +55,8 @@
 					$(this).remove();
 				});
 
+				var emptyList = $("<li>").addClass("list-group-item").text("You will be the first!");
+
 				function current() {
 					timer.start()
 
@@ -89,6 +91,7 @@
 					});
 
 					if (content.length > 0) $("#stage").html(content);
+					if (content.length == 0) $("#stage").html(emptyList);
 					$("#timer").text(timer.duration);
 
 					setTimeout(current, 2000);
