@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
+	"net/mail"
 	"time"
 )
 
@@ -36,6 +38,14 @@ func PersonList() []Person {
 }
 
 func PersonCreate(name, email string) error {
+	if name == "" {
+		return errors.New("Missing name from post.")
+	}
+
+	if email != "" && notEmail(email) {
+		return errors.New("Invalid email format.")
+	}
+
 	person := Person{Name: name, Email: email, Date: time.Now()}
 	err := db.Create(&person).Error
 
@@ -44,4 +54,10 @@ func PersonCreate(name, email string) error {
 	}
 
 	return err
+}
+
+func notEmail(in string) bool {
+	_, err := mail.ParseAddress(in)
+
+	return err != nil
 }
