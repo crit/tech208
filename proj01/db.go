@@ -10,36 +10,51 @@ import (
 
 var db gorm.DB
 
-func dbInit() error {
-	var err error
+var storer DbManager = DbManager{
+	DSN:     os.Getenv("DB_DSN"),
+	Logging: os.Getenv("DB_LOGGING") == "on",
+}
 
-	dsn := os.Getenv("DBDSN")
+type DbManager struct {
+	DSN     string
+	Logging bool
+	Start   bool
+	Error   error
+}
 
-	if dsn == "" {
-		log.Println("Missing DBDSN env variable")
-		return errors.New("No DB connection set.")
+func (m *DbManager) InitDb() (err error) {
+	if m.DSN == "" {
+		log.Println("Missing DB_DSN env variable")
+		m.Error = errors.New("No DB connection set.")
+		return m.Error
 	}
 
-	db, err = gorm.Open("mysql", dsn)
+	db, err = gorm.Open("mysql", m.DSN)
 
 	if err != nil {
 		log.Println(err.Error())
-		return errors.New("Unable to initialize db driver.")
+		m.Error = errors.New("Unable to initialize db driver.")
+		return m.Error
 	}
 
-	db.LogMode(true)
-	db.DB().SetMaxIdleConns(100)
-	db.DB().SetMaxOpenConns(10)
+	db.LogMode(m.Logging)
+	db.DB().SetMaxIdleConns(10)
+	db.DB().SetMaxOpenConns(100)
+
+	m.Start = true
 
 	return nil
 }
 
-func dbMissing() bool {
-	err := db.DB().Ping()
-
-	if err != nil {
-		log.Println(err.Error())
+func (m *DbManager) MissingDb() bool {
+	if !m.Start {
+		return true
 	}
 
-	return err != nil
+	if err := db.DB().Ping(); err != nil {
+		log.Println(err.Error())
+		return true
+	}
+
+	return false
 }

@@ -1,21 +1,45 @@
 package main
 
+import (
+	"encoding/json"
+)
+
 type Person struct {
-	Id    int
-	Name  string
-	Email string
+	Id    int    `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
 
-type People []Person
-
-func (p *Person) Create() {
-	db.Table("people").Create(&p)
+func (Person) TableName() string {
+	return "people"
 }
 
-func ListPeople() []string {
-	names := make([]string, 0)
+func PersonList() []Person {
+	list := make([]Person, 0)
 
-	db.Table("people").Model(Person{}).Order("id desc").Pluck("name", &names)
+	cache := cacher.Get("people")
 
-	return names
+	if err := json.Unmarshal([]byte(cache), &list); cache != "" && err == nil {
+		return list
+	}
+
+	db.Order("id desc").Find(&list)
+
+	if len(list) > 0 {
+		data, _ := json.Marshal(list)
+		cacher.Set("people", string(data))
+	}
+
+	return list
+}
+
+func PersonCreate(name, email string) error {
+	person := Person{Name: name, Email: email}
+	err := db.Create(&person).Error
+
+	if err == nil {
+		cacher.Delete("people")
+	}
+
+	return err
 }

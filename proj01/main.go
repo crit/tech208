@@ -16,60 +16,56 @@ func main() {
 		Layout:     "layout",
 	}))
 
-	if err := dbInit(); err != nil {
-		m.Use(AlwaysError())
-	} else {
-		m.Use(StorageCheck())
-	}
+	storer.InitDb()
+	cacher.InitCache()
+	// cacher.Engine = "none"
 
-	m.Get("", Page)
-	m.Post("/register", Register)
-	m.Get("/current", Current)
-	m.NotFound(NotFound)
+	m.Use(storageCheck())
+
+	m.Get("", func(out render.Render) {
+		ip, _ := myip.GetMyIP()
+		out.HTML(200, "index", ip)
+	})
+
+	m.Group("/api", func(m martini.Router) {
+
+		m.Get("/people", func(out render.Render) {
+			out.JSON(200, map[string][]Person{"people": PersonList()})
+		})
+
+		m.Put("/people", func(out render.Render, req *http.Request) {
+			name, email := req.FormValue("name"), req.FormValue("email")
+
+			if err := PersonCreate(name, email); err != nil {
+				hadError(out, err)
+			} else {
+				out.Status(201)
+			}
+		})
+	})
+
+	m.NotFound(func(out render.Render) {
+		out.HTML(400, "404", nil)
+	})
 
 	m.Run()
 }
 
-func StorageCheck() martini.Handler {
+func storageCheck() martini.Handler {
 	return func(out render.Render) {
-		if dbMissing() {
+		if storer.MissingDb() {
 			out.HTML(500, "error", "Database is unavailable. Check server log for reason.")
 			return
 		}
 	}
 }
 
-func AlwaysError() martini.Handler {
+func alwaysError() martini.Handler {
 	return func(out render.Render) {
-		out.HTML(500, "error", "Database is unavailable. Check server log for reason.")
+		out.HTML(500, "error", "Database was unable to start!")
 	}
 }
 
-func Page(out render.Render) {
-	ip, _ := myip.GetMyIP()
-	out.HTML(200, "index", ip)
-}
-
-func Register(out render.Render, req *http.Request) {
-	name := req.FormValue("name")
-	email := req.FormValue("email")
-
-	if name == "" {
-		out.Redirect("/?status=error")
-		return
-	}
-
-	db.Exec("insert into people (name, email) values (?, ?)", name, email)
-
-	out.Redirect("/?status=success")
-	// ToDo: Flush MEMCACHED!
-}
-
-func Current(out render.Render) {
-	// ToDo: Run this against MEMCACHED
-	out.JSON(200, map[string][]string{"current": ListPeople()})
-}
-
-func NotFound(out render.Render) {
-	out.HTML(400, "404", nil)
+func hadError(out render.Render, err error) {
+	out.JSON(500, err.Error())
 }
