@@ -34,6 +34,7 @@ func PersonList() []Person {
 	return list
 }
 
+// might flush the cache
 func PersonCreate(name, email string) error {
 	person := Person{Name: name, Email: email}
 	err := db.Create(&person).Error
