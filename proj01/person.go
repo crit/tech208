@@ -14,6 +14,7 @@ func (Person) TableName() string {
 	return "people"
 }
 
+// possibly cached
 func PersonList() []Person {
 	list := make([]Person, 0)
 
