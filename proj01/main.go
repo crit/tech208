@@ -37,7 +37,7 @@ func main() {
 			name, email := req.FormValue("name"), req.FormValue("email")
 
 			if err := PersonCreate(name, email); err != nil {
-				hadError(out, err)
+				out.JSON(500, err.Error())
 			} else {
 				out.Status(201)
 			}
@@ -64,8 +64,4 @@ func alwaysError() martini.Handler {
 	return func(out render.Render) {
 		out.HTML(500, "error", "Database was unable to start!")
 	}
-}
-
-func hadError(out render.Render, err error) {
-	out.JSON(500, err.Error())
 }
